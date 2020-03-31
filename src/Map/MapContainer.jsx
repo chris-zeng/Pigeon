@@ -14,8 +14,20 @@ var myIcon = L.icon(
 );
 
 export default class MapContainer extends React.Component {
+  state = {
+    longitude:null,
+    latitude:null,
+  }
+  componentDidMount(){
+    let longitude = localStorage.getItem("longitude");
+    let latitude = localStorage.getItem("latitude");
+    console.log("component did mount", longitude, latitude);
+    this.setState({longitude});
+    this.setState({latitude});
+  }
   render() {
-    const position = [51.505, -0.09];
+    const position = [this.state.latitude, this.state.longitude];
+    const position = [43.8001784, -79.3393071];
     return (
       <Map className="map" center={position} zoom={13}>
         <TileLayer

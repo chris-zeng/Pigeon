@@ -74,7 +74,9 @@ export default function NavBarComponent(props) {
             </Button>
           </Modal.Footer>
         </Modal>
-
+        <Button variant="outline-light" onClick={props.onClickLogout}>
+          Logout
+        </Button>
       </Form>
     </Navbar>
   );

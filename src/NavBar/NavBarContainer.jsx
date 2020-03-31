@@ -15,9 +15,13 @@ export default class NavBarContainer extends React.Component {
     return(<LoginModal/>);
   }
 
+  onClickLogout = () => {
+    localStorage.clear();
+  }
+
   render() {
     return (
-      <NavBarComponent loginClicked={this.loginClicked}/>
+      <NavBarComponent loginClicked={this.loginClicked} onClickLogout={this.onClickLogout}/>
     );
   }
 }
