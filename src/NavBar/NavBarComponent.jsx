@@ -33,7 +33,7 @@ export default function NavBarComponent(props) {
         <Button variant="outline-light" onClick={handleShowNewOrder}>
           +Order
         </Button>
-        <NewOrderModal show={showNewOrder} />
+        <NewOrderModal show={showNewOrder} onHide = {handleCloseNewOrder} />
       </Nav>
       <Form inline>
         <FormControl

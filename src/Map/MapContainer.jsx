@@ -24,9 +24,7 @@ export default class MapContainer extends React.Component {
         />
         <Marker position={position} icon={myIcon}>
           <Popup>
-            A pretty CSS3 popup.
-            <br />
-            Easily customizable.
+            <button> Pick up</button>
           </Popup>
         </Marker>
       </Map>
