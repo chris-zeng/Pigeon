@@ -42,7 +42,7 @@ export default class LocationSearchInput extends React.Component {
           <div>
             <input
               {...getInputProps({
-                placeholder: 'Search Places ...',
+                placeholder: 'Enter Address',
                 className: 'location-search-input',
               })}
             />

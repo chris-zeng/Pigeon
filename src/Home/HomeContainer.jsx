@@ -6,12 +6,26 @@ export default class HomeContainer extends React.Component{
         longitude:null,
         latitude:null,
     }
+    __loadOrders = () =>{
+        fetch("https://pigeon1.herokuapp.com/readOrder", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json"
+        }
+        }).then(response=>{
+            return response.json();
+        }).then(res =>{
+            console.log(res);
+        });
+    }
+
     componentDidMount(){
         let longitude = localStorage.getItem("longitude");
         let latitude = localStorage.getItem("latitude");
         console.log("component did mount", longitude, latitude);
         this.setState({longitude});
         this.setState({latitude});
+        this.__loadOrders();
       }
     render(){
         if(!this.state.longitude && !this.state.longitude){

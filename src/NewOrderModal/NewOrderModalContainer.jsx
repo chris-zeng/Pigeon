@@ -100,7 +100,7 @@ export default class NewOrderModalContainer extends React.Component {
     }
     //const email = localStorage.getItem("email");
     const email = "chris.dz@gmail.com";
-    fetch("https://pigeo1.herokuapp.com", {
+    fetch("https://pigeon1.herokuapp.com/createOrder", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -115,6 +115,14 @@ export default class NewOrderModalContainer extends React.Component {
         itemsValues: this.state.itemsValues,
         estimatedTotalPrice: this.state.estimatedTotalPrice
       })
+    }).then(response=>{
+      console.log(response)
+      if(response.status == 200){
+        this.closeButton();
+      }
+      else{
+        alert("Unable to place order...")
+      }
     });
     console.log(this.state);
   };
