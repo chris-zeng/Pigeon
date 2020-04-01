@@ -69,11 +69,11 @@ export default class NewOrderModalContainer extends React.Component {
     return true;
   };
 
-  LocationSearchInputHandleSelect = (latlong, address) => {
-    console.log("YO", latlong, address);
+  LocationSearchInputHandleSelect = (latlgn, address) => {
+    console.log("YO", latlgn, address);
     this.setState({ address: address });
-    this.setState({ longitude: latlong.long });
-    this.setState({ latitude: latlong.lat });
+    this.setState({ longitude: latlgn.lng });
+    this.setState({ latitude: latlgn.lat });
   };
 
   onChangeInput = e => {
@@ -118,7 +118,7 @@ export default class NewOrderModalContainer extends React.Component {
     }).then(response=>{
       console.log(response)
       if(response.status == 200){
-        this.closeButton();
+        this.props.onHide();
       }
       else{
         alert("Unable to place order...")

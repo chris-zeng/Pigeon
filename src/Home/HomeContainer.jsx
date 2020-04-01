@@ -5,6 +5,7 @@ export default class HomeContainer extends React.Component{
     state = {
         longitude:null,
         latitude:null,
+        orders:[],
     }
     __loadOrders = () =>{
         fetch("https://pigeon1.herokuapp.com/readOrder", {
@@ -15,7 +16,8 @@ export default class HomeContainer extends React.Component{
         }).then(response=>{
             return response.json();
         }).then(res =>{
-            console.log(res);
+            console.log("fetched orders", res);
+            this.setState({orders:res});
         });
     }
 
@@ -33,7 +35,7 @@ export default class HomeContainer extends React.Component{
           }
         return(
             <React.Fragment>
-                <Map center = {[this.state.latitude, this.state.longitude]}/>
+                <Map center = {[this.state.latitude, this.state.longitude]} orders={this.state.orders}/>
             </React.Fragment>
         );
     }
