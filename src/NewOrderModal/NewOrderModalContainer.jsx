@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, FormControl, Button, Modal, Col, Row } from "react-bootstrap";
 
-import LocationSearchInput from './../common/component/LocationSearchInput'
+import LocationSearchInput from "./../common/component/LocationSearchInput";
 
 class Item extends React.Component {
   render() {
@@ -13,6 +13,7 @@ class Item extends React.Component {
           type="text"
           className="validate flow-text"
           onChange={this.props.onChange}
+          placeholder="enter an item/task you want to us to do"
         />
       </Form.Group>
     );
@@ -22,13 +23,16 @@ class Item extends React.Component {
 export default class NewOrderModalContainer extends React.Component {
   state = {
     show: this.props.show,
-    fullName:"",
-    address:"",
-    suite:"",
-    phone:"",
+    fullName: "",
+    address: "",
+    suite: "",
+    phone: "",
     itemsInputs: [],
     itemsValues: {},
-    estimatedTotalPrice:0,
+    estimatedTotalPrice: 0,
+    latitude: null,
+    longitude: null,
+    totalPrice: null
   };
   showModal = e => {
     this.setState({
@@ -36,38 +40,84 @@ export default class NewOrderModalContainer extends React.Component {
     });
   };
 
-  itemTextChanged = (e)=>{
-    let {itemsValues} = this.state;
-    itemsValues[e.target.id] = e.target.value
-  }
+  handleValidation = () => {
+    if (this.state.fullName === "") {
+      alert("Enter your full name");
+      return false;
+    }
+
+    if (
+      this.state.address === "" ||
+      this.state.latitude === null ||
+      this.state.longitude === null
+    ) {
+      alert("Enter your address");
+      return false;
+    }
+
+    if (this.state.itemsValues.length <= 0) {
+      alert("Enter an item");
+    }
+
+    if (this.state.totalPrice === 0) {
+      alert("Please enter the estimated price for this order");
+    }
+
+    if (this.state.phone === "") {
+      alert("Enter your phone number");
+    }
+    return true;
+  };
+
+  LocationSearchInputHandleSelect = (latlong, address) => {
+    console.log("YO", latlong, address);
+    this.setState({ address: address });
+    this.setState({ longitude: latlong.long });
+    this.setState({ latitude: latlong.lat });
+  };
+
+  onChangeInput = e => {
+    console.log(e.target.name, e.target.value);
+    this.setState({ [e.target.name]: e.target.value });
+  };
+
+  itemTextChanged = e => {
+    let { itemsValues } = this.state;
+    itemsValues[e.target.id] = e.target.value;
+  };
 
   addItem = item => {
-    let name = `item-${Object.keys(this.state.itemsInputs).length}`
-    let newItemInput = <Item name={name}  onChange ={this.itemTextChanged}/>;
+    let name = `item-${Object.keys(this.state.itemsInputs).length}`;
+    let newItemInput = <Item name={name} onChange={this.itemTextChanged} />;
     let { itemsInputs } = this.state;
     itemsInputs.push(newItemInput);
     this.setState({ itemsInputs });
   };
 
-  onClickSubmit = () =>{
+  onClickSubmit = () => {
+    if (!this.handleValidation()) {
+      return;
+    }
     //const email = localStorage.getItem("email");
     const email = "chris.dz@gmail.com";
-    fetch('https://pigeo1.herokuapp.com', {
-      method: 'POST',
+    fetch("https://pigeo1.herokuapp.com", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        fullName:this.state.fullName,
-        address:this.state.address,
-        suite:this.state.suite,
-        phone:this.state.phone,
+        latitude: this.state.latitude,
+        longitude: this.state.longitude,
+        fullName: this.state.fullName,
+        address: this.state.address,
+        suite: this.state.suite,
+        phone: this.state.phone,
         itemsValues: this.state.itemsValues,
-        estimatedTotalPrice:this.state.estimatedTotalPrice,
+        estimatedTotalPrice: this.state.estimatedTotalPrice
       })
-    })
-    console.log(this.state)
-  }
+    });
+    console.log(this.state);
+  };
 
   render() {
     console.log(this.state.show);
@@ -81,27 +131,43 @@ export default class NewOrderModalContainer extends React.Component {
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
-        <Modal.Header closeButton onHide={ e=> {
-          this.props.onHide()
-        }}>
+        <Modal.Header
+          closeButton
+          onHide={e => {
+            this.props.onHide();
+          }}
+        >
           <Modal.Title id="contained-modal-title-vcenter">
             Place an new order
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <LocationSearchInput/>
             <Form.Group controlId="info">
-              <Form.Control name="name" placeholder="first name, last name" />
+              <Form.Control
+                name="fullName"
+                placeholder="Full name *"
+                onChange={e => this.onChangeInput(e)}
+              />
             </Form.Group>
             <Form.Group controlId="info">
-              <Form.Control name="phone" placeholder="phone" />
+              <Form.Control
+                name="phone"
+                placeholder="Enter phone *"
+                onChange={e => this.onChangeInput(e)}
+              />
             </Form.Group>
             <Form.Group controlId="info">
-              <Form.Control name="address" placeholder="Address" />
+              <LocationSearchInput
+                handleSelect={this.LocationSearchInputHandleSelect}
+              />
             </Form.Group>
             <Form.Group controlId="info">
-              <Form.Control name="suite" placeholder="Suite #" />
+              <Form.Control
+                name="suite"
+                placeholder="Suite # (Optional)"
+                onChange={e => this.onChangeInput(e)}
+              />
             </Form.Group>
             <Form.Group controlId="info">
               <Form.Label>Items</Form.Label>
@@ -111,12 +177,16 @@ export default class NewOrderModalContainer extends React.Component {
           </Form>
         </Modal.Body>
         <Form.Group controlId="info">
-          <Form.Label>Approxmate total price</Form.Label>
-          <Form.Control name="suite" placeholder="Approxmate total price" />
+          <Form.Label>Estimated total price</Form.Label>
+          <Form.Control
+            name="totalPrice"
+            placeholder="Estimated total price for this order ($)*"
+            onChange={e => this.onChangeInput(e)}
+          />
         </Form.Group>
         <Modal.Footer>
-        <Form.Group controlId="info">  
-          <Button onClick = {this.onClickSubmit}>Submit</Button>
+          <Form.Group controlId="info">
+            <Button onClick={this.onClickSubmit}>Submit</Button>
           </Form.Group>
         </Modal.Footer>
       </Modal>
