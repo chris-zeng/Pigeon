@@ -40,6 +40,21 @@
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
+      <script>
+    var config = require("./config.js");
+    var GOOGLE_MAP_KEY = config.GOOGLE_MAP_KEY
+    function loadScript() {
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://maps.googleapis.com/maps/api/js' +
+          '?key=' + GOOGLE_MAP_KEY +'&libraries=places'; //& needed
+      document.body.appendChild(script);
+    }
+    
+    window.onload = loadScript;
+    </script>
     -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaMXnGz6lnnfFi05MaEe7XvZbMp8wz2HE&libraries=places"></script>
+    
   </body>
 </html>

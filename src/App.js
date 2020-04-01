@@ -31,7 +31,9 @@ export default class App extends React.Component{
       { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 },
     );
   }
-  render(){return (
+
+  render(){
+    return (
     <React.Fragment>
       <NavBar />
       <Home/>

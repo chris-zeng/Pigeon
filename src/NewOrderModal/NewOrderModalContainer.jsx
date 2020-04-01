@@ -1,6 +1,8 @@
 import React from "react";
 import { Form, FormControl, Button, Modal, Col, Row } from "react-bootstrap";
 
+import LocationSearchInput from './../common/component/LocationSearchInput'
+
 class Item extends React.Component {
   render() {
     const { name, itemTextChanged } = this.props;
@@ -20,9 +22,13 @@ class Item extends React.Component {
 export default class NewOrderModalContainer extends React.Component {
   state = {
     show: this.props.show,
-    address: "",
+    fullName:"",
+    address:"",
+    suite:"",
+    phone:"",
     itemsInputs: [],
     itemsValues: {},
+    estimatedTotalPrice:0,
   };
   showModal = e => {
     this.setState({
@@ -44,6 +50,22 @@ export default class NewOrderModalContainer extends React.Component {
   };
 
   onClickSubmit = () =>{
+    //const email = localStorage.getItem("email");
+    const email = "chris.dz@gmail.com";
+    fetch('https://pigeo1.herokuapp.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        fullName:this.state.fullName,
+        address:this.state.address,
+        suite:this.state.suite,
+        phone:this.state.phone,
+        itemsValues: this.state.itemsValues,
+        estimatedTotalPrice:this.state.estimatedTotalPrice,
+      })
+    })
     console.log(this.state)
   }
 
@@ -68,6 +90,7 @@ export default class NewOrderModalContainer extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <Form>
+            <LocationSearchInput/>
             <Form.Group controlId="info">
               <Form.Control name="name" placeholder="first name, last name" />
             </Form.Group>

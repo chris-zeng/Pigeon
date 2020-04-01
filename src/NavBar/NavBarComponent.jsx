@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 
 import NewOrderModal from '../NewOrderModal'
+import LocationSearchInput from './../common/component/LocationSearchInput'
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -36,11 +37,7 @@ export default function NavBarComponent(props) {
         <NewOrderModal show={showNewOrder} onHide = {handleCloseNewOrder} />
       </Nav>
       <Form inline>
-        <FormControl
-          type="text"
-          placeholder="Search by location"
-          className="mr-sm-2"
-        />
+      <LocationSearchInput/>
         <Button variant="outline-light" onClick={handleShowLogin}>
           Login
         </Button>

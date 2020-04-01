@@ -18,23 +18,17 @@ export default class MapContainer extends React.Component {
     longitude:null,
     latitude:null,
   }
-  componentDidMount(){
-    let longitude = localStorage.getItem("longitude");
-    let latitude = localStorage.getItem("latitude");
-    console.log("component did mount", longitude, latitude);
-    this.setState({longitude});
-    this.setState({latitude});
-  }
+  
   render() {
-    const position = [this.state.latitude, this.state.longitude];
-    const position = [43.8001784, -79.3393071];
+    //const position = [43.8001784, -79.3393071];
+    
     return (
-      <Map className="map" center={position} zoom={13}>
+      <Map className="map" center={this.props.center} zoom={13}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={position} icon={myIcon}>
+        <Marker position={this.props.center} icon={myIcon}>
           <Popup>
             <button> Pick up</button>
           </Popup>
