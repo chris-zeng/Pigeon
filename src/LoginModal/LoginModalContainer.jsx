@@ -6,7 +6,8 @@ import {
   Modal,
 } from "react-bootstrap";
 
-export default class LoginModalContainer extends React.Component {
+
+class LoginModalContainer extends React.Component {
   state = {
     "email":"",
     "password":"",
@@ -59,3 +60,5 @@ export default class LoginModalContainer extends React.Component {
     );
   }
 }
+
+export default LoginModalContainer;
