@@ -1,16 +1,10 @@
-import React, {useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Form,
-  FormControl,
-  Button,
-  Modal,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Navbar, Nav, Form, Button, Modal } from "react-bootstrap";
 
-import NewOrderModal from '../NewOrderModal'
-import LocationSearchInput from './../common/component/LocationSearchInput'
+import NewOrderModal from "../NewOrderModal";
+import SignUpModal from "../SignUpModal";
+import LoginModal from "../LoginModal";
+import LocationSearchInput from "./../common/component/LocationSearchInput";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -34,43 +28,18 @@ export default function NavBarComponent(props) {
         <Button variant="outline-light" onClick={handleShowNewOrder}>
           +Order
         </Button>
-        <NewOrderModal show={showNewOrder} onHide = {handleCloseNewOrder} />
+        <NewOrderModal show={showNewOrder} onHide={handleCloseNewOrder} />
       </Nav>
       <Form inline>
-      <LocationSearchInput/>
+        <LocationSearchInput />
         <Button variant="outline-light" onClick={handleShowLogin}>
           Login
         </Button>
-        <Modal show={showLogin} onHide={handleCloseLogin}>
-          <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
-          </Modal.Header>
-          <Modal.Footer>
-          <Form.Control type="email" placeholder="E-mail" />
-          <Form.Control type="password" placeholder="Password" />
-            <Button variant="primary" onClick={handleCloseLogin}>
-              Login
-            </Button>
-          </Modal.Footer>
-        </Modal>
-
+        <LoginModal show={showLogin} onHide={handleCloseLogin} />
         <Button variant="outline-light" onClick={handleShowSignup}>
           Sign-up
         </Button>
-        <Modal show={showSignup} onHide={handleCloseSignup}>
-          <Modal.Header closeButton>
-            <Modal.Title>Signup</Modal.Title>
-          </Modal.Header>
-          <Modal.Footer>
-          <Form.Control type="email" placeholder="E-mail" />
-          <Form.Control type="password" placeholder="Password" />
-          <Form.Control type="password" placeholder="Confirm Password" />
-
-            <Button variant="primary" onClick={handleCloseLogin}>
-              Login
-            </Button>
-          </Modal.Footer>
-        </Modal>
+        <SignUpModal show={showSignup} onHide={handleCloseSignup} />
         <Button variant="outline-light" onClick={props.onClickLogout}>
           Logout
         </Button>

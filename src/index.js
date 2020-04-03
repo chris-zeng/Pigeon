@@ -6,7 +6,6 @@ import * as serviceWorker from './serviceWorker';
 import 'leaflet/dist/leaflet.css';
 import {createStore, combineReducers} from 'redux';
 
-const store = createStore(combineReducers);
 
 ReactDOM.render(
   <React.StrictMode>
