@@ -1,7 +1,7 @@
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from "./types";
+import { LOGIN_FAILURE, LOGIN_SUCCESS } from "./types";
 
-export const login = (email, password) => async dispatch => {
-    const status = await fetch("https://pigeon2.herokuapp.com/login", {
+export const signup = (email, password, username) => async dispatch => {
+    const status = await fetch("https://pigeon2.herokuapp.com/addUser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -9,6 +9,7 @@ export const login = (email, password) => async dispatch => {
       body: JSON.stringify({
         email: email,
         password: password,
+        username: username,
       }),
     }).then((response) => {
       console.log(response);
@@ -19,7 +20,7 @@ export const login = (email, password) => async dispatch => {
         });
         return true;
       } else {
-        alert("Unable to Login...");
+        alert("Unable to Signup...");
         dispatch({
           type: LOGIN_FAILURE,
         });

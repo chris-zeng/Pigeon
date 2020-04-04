@@ -1,20 +1,20 @@
-import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from "../actions/types";
+import { SIGNUP_REQUEST, SIGNUP_FAILURE, SIGNUP_SUCCESS } from "../actions/types";
 
 const INITIAL_STATE = {
   email: null,
   isAuthenticated: false,
 };
 
-const loginReducer = (state = INITIAL_STATE, action) => {
+const signupReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case LOGIN_SUCCESS:
-      console.log("SUCCESS LOGIN");
+    case SIGNUP_SUCCESS:
+      console.log("SUCCESS SIGNUP");
       return {
         ...state,
         email: action.payload,
         isAuthenticated: true,
       };
-    case LOGIN_FAILURE:
+    case SIGNUP_FAILURE:
       return {
         ...state,
         isAuthenticated: false,
@@ -24,4 +24,4 @@ const loginReducer = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default loginReducer;
+export default signupReducer;

@@ -8,7 +8,7 @@ export default class HomeContainer extends React.Component{
         orders:[],
     }
     __loadOrders = () =>{
-        fetch("https://pigeon1.herokuapp.com/readOrder", {
+        fetch("https://pigeon2.herokuapp.com/readOrder", {
             method: "POST",
             headers: {
             "Content-Type": "application/json"

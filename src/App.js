@@ -4,11 +4,9 @@ import Home from "./Home";
 import { render } from "react-dom";
 import GeoCode from "react-geocode";
 import {Provider} from 'react-redux'
-import {createStore, applyMiddleware} from 'redux'
+import store from  './store'
 GeoCode.setLanguage("en");
 GeoCode.setRegion("es");
-
-const store = createStore(()=>[], {}, applyMiddleware());
 
 export default class App extends React.Component {
   componentDidMount() {

@@ -1,4 +1,5 @@
 import React from "react";
+import {Form} from 'react-bootstrap'
 import { render } from "react-dom";
 import L from "leaflet";
 import { Map, Marker, Popup, TileLayer } from "react-leaflet";
@@ -31,7 +32,17 @@ export default class MapContainer extends React.Component {
             const pos = [order.latitude, order.longitude];
             return (
               <Marker position={pos} icon={myIcon}>
+                
                 <Popup>
+                  <h1>Chris Zeng</h1>
+                  <h1>6476062679</h1>
+                  <h1>Item 1: Rice</h1>
+                  <h1>Item 2: Mask</h1>
+
+                <Form.Label>Estimated total price</Form.Label>
+                <Form.Label>Estimated total price</Form.Label>
+                <Form.Label>Estimated total price</Form.Label>
+                <Form.Label>Estimated total price</Form.Label>
                   <button> Pick up</button>
                 </Popup>
               </Marker>

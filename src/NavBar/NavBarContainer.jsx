@@ -2,14 +2,21 @@
 import React from 'react'
 import NavBarComponent from './NavBarComponent'
 import LoginModal from '../LoginModal'
+import {connect} from 'react-redux'; 
 
-export default class NavBarContainer extends React.Component {
+class NavBarContainer extends React.Component {
   constructor(props){
     super(props);
+    console.log("PPROPS HERE", this.props);
+    
     this.state = {
-      authenticated: false
+      isAuthenticated: this.props.isAuthenticated
     }
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("COMPONENT DID UPDATE");
+}
 
   loginClicked = ()=>{
     return(<LoginModal/>);
@@ -21,7 +28,16 @@ export default class NavBarContainer extends React.Component {
 
   render() {
     return (
-      <NavBarComponent loginClicked={this.loginClicked} onClickLogout={this.onClickLogout}/>
+      <NavBarComponent loginClicked={this.loginClicked} onClickLogout={this.onClickLogout} isAuthenticated={this.props.isAuthenticated}/>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.login.isAuthenticated,
+  email: state.login.email
+})
+
+NavBarContainer = connect(mapStateToProps)(NavBarContainer);
+
+export default NavBarContainer;
