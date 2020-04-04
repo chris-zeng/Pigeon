@@ -3,8 +3,8 @@ import NavBar from "./NavBar";
 import Home from "./Home";
 import { render } from "react-dom";
 import GeoCode from "react-geocode";
-import {Provider} from 'react-redux'
-import store from  './store'
+
+
 GeoCode.setLanguage("en");
 GeoCode.setRegion("es");
 
@@ -29,10 +29,8 @@ export default class App extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Provider store = {store}>
-        <NavBar />
-        <Home />
-        </Provider>
+            <NavBar />
+            <Home />
       </React.Fragment>
     );
   }

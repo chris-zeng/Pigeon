@@ -15,7 +15,8 @@ export const login = (email, password) => async dispatch => {
       if (response.status == 200) {
         dispatch({
           type: LOGIN_SUCCESS,
-          payload: email,
+          email: email,
+          password: password
         });
         return true;
       } else {

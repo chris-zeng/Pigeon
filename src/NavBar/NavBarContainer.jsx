@@ -41,8 +41,9 @@ class NavBarContainer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.login.isAuthenticated,
-  email: state.login.email
+  isAuthenticated: state.authentication.isAuthenticated,
+  email: state.authentication.email,
+  password: state.authentication.password,
 });
 
 NavBarContainer = connect(mapStateToProps)(NavBarContainer);

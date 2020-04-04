@@ -18,7 +18,8 @@ const authenticationReducer = (state = INITIAL_STATE, action) => {
       console.log("SUCCESS LOGIN");
       return {
         ...state,
-        email: action.payload,
+        email: action.email,
+        password: action.password,
         isAuthenticated: true,
       };
     case LOGIN_FAILURE:
@@ -30,7 +31,8 @@ const authenticationReducer = (state = INITIAL_STATE, action) => {
       console.log("SUCCESS SIGNUP");
       return {
         ...state,
-        email: action.payload,
+        email: action.email,
+        password: action.password,
         isAuthenticated: true,
       };
     case SIGNUP_FAILURE:
