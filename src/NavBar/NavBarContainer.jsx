@@ -2,19 +2,21 @@ import React from "react";
 import NavBarComponent from "./NavBarComponent";
 import LoginModal from "../LoginModal";
 import { connect } from "react-redux";
-
+import {setGeoLocation} from './../actions/setGeoLocationAction'
 class NavBarContainer extends React.Component {
   constructor(props) {
     super(props);
-    console.log("PPROPS HERE", this.props);
 
     this.state = {
       isAuthenticated: this.props.isAuthenticated
     };
   }
 
+  handleLocationSearchInputSelect = (latlgn, address) => {
+    this.props.setGeoLocation(latlgn.lat, latlgn.lng);
+  }
+
   static getDerivedStateFromProps(props, state) {
-    console.log("COMPONENT DID UPDATE", props, state);
     if (state.isAuthenticated !== props.isAuthenticated) {
       return { isAuthenticated: props.isAuthenticated };
     }
@@ -29,12 +31,12 @@ class NavBarContainer extends React.Component {
   };
 
   render() {
-    console.log("RENDER", this.state.isAuthenticated);
     return (
       <NavBarComponent
         loginClicked={this.loginClicked}
         onClickLogout={this.onClickLogout}
         isAuthenticated={this.state.isAuthenticated}
+        handleLocationSearchInputSelect = {this.handleLocationSearchInputSelect}
       />
     );
   }
@@ -46,6 +48,6 @@ const mapStateToProps = state => ({
   password: state.authentication.password,
 });
 
-NavBarContainer = connect(mapStateToProps)(NavBarContainer);
+NavBarContainer = connect(mapStateToProps, {setGeoLocation})(NavBarContainer);
 
 export default NavBarContainer;

@@ -31,23 +31,25 @@ export default function NavBarComponent(props) {
         <NewOrderModal show={showNewOrder} onHide={handleCloseNewOrder} />
       </Nav>
       <Form inline>
-        <LocationSearchInput />
-        {!props.isAuthenticated?(
+        <LocationSearchInput
+          handleSelect={props.handleLocationSearchInputSelect}
+        />
+        {!props.isAuthenticated ? (
           <>
-          <Button variant="outline-light" onClick={handleShowLogin}>
-            Login
-          </Button>
-          <LoginModal show={showLogin} onHide={handleCloseLogin} />
-          <Button variant="outline-light" onClick={handleShowSignup}>
-            Sign-up
-          </Button>
-          <SignUpModal show={showSignup} onHide={handleCloseSignup} />
+            <Button variant="outline-light" onClick={handleShowLogin}>
+              Login
+            </Button>
+            <LoginModal show={showLogin} onHide={handleCloseLogin} />
+            <Button variant="outline-light" onClick={handleShowSignup}>
+              Sign-up
+            </Button>
+            <SignUpModal show={showSignup} onHide={handleCloseSignup} />
           </>
-        ):(
+        ) : (
           <>
-          <Button variant="outline-light" onClick={props.onClickLogout}>
-            Logout
-          </Button>
+            <Button variant="outline-light" onClick={props.onClickLogout}>
+              Logout
+            </Button>
           </>
         )}
       </Form>
