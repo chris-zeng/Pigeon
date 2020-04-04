@@ -27,18 +27,18 @@ class MapContainer extends React.Component {
 
   render() {
     const center=[this.state.latitude, this.state.longitude];
-
+    console.log("ORDERS", this.props.orders);
     return (
       <Map className="map" center={center} zoom={15}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
-        {this.props.orders &&
+        {this.props.orders.length > 0 &&
           this.props.orders.map((order) => {
             const pos = [order.latitude, order.longitude];
             return (
-              <PigeonMarker position={pos}/>                
+              <PigeonMarker position={pos} order={order}/>                
             );
           })}
       </Map>

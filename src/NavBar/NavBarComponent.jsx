@@ -4,6 +4,7 @@ import { Navbar, Nav, Form, Button, Modal } from "react-bootstrap";
 import NewOrderModal from "../NewOrderModal";
 import SignUpModal from "../SignUpModal";
 import LoginModal from "../LoginModal";
+import About from "../About"
 import LocationSearchInput from "./../common/component/LocationSearchInput";
 
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -28,14 +29,22 @@ export default function NavBarComponent(props) {
     }
   }
 
+  const [showAbout, setShowAbout] = useState(false);
+  const handleCloseAbout = () => setShowAbout(false);
+  const handleShowAbout = () => setShowAbout(true);
+
   return (
     <Navbar bg="primary" variant="dark">
-      <Navbar.Brand href="#home">Pigeon</Navbar.Brand>
+      <Navbar.Brand href="#home">Pigeon Supporting COVID19</Navbar.Brand>
       <Nav className="mr-auto">
         <Button variant="outline-light" onClick={handleShowNewOrder}>
           +Order
         </Button>
         <NewOrderModal show={showNewOrder} onHide={handleCloseNewOrder} />
+        <Button variant="outline-light" onClick={handleShowAbout}>
+          How to use?
+        </Button>
+        <About show={showAbout} onHide={handleCloseAbout} />
       </Nav>
       <Form inline>
         <LocationSearchInput
