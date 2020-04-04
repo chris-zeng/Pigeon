@@ -1,6 +1,6 @@
 import React from "react";
 import { Form, FormControl, Button, Modal, Col, Row } from "react-bootstrap";
-
+import { connect } from "react-redux";
 import LocationSearchInput from "./../common/component/LocationSearchInput";
 
 class Item extends React.Component {
@@ -20,25 +20,41 @@ class Item extends React.Component {
   }
 }
 
-export default class NewOrderModalContainer extends React.Component {
-  state = {
-    show: this.props.show,
-    fullName: "",
-    address: "",
-    suite: "",
-    phone: "",
-    itemsInputs: [],
-    itemsValues: {},
-    estimatedTotalPrice: 0,
-    latitude: null,
-    longitude: null,
-    totalPrice: null
-  };
-  showModal = e => {
+class NewOrderModalContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isAuthenticated: this.props.isAuthenticated,
+      email: this.props.email,
+      password: this.props.password,
+      show: this.props.show,
+      fullName: "",
+      address: "",
+      suite: "",
+      phone: "",
+      itemsInputs: [],
+      itemsValues: {},
+      estimatedTotalPrice: 0,
+      latitude: null,
+      longitude: null,
+      totalPrice: null,
+    };
+  }
+  showModal = (e) => {
     this.setState({
-      show: true
+      show: true,
     });
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (state.isAuthenticated !== props.isAuthenticated) {
+      return {
+        isAuthenticated: props.isAuthenticated,
+        email: props.email,
+        password: props.password,
+      };
+    }
+  }
 
   handleValidation = () => {
     if (this.state.fullName === "") {
@@ -76,17 +92,17 @@ export default class NewOrderModalContainer extends React.Component {
     this.setState({ latitude: latlgn.lat });
   };
 
-  onChangeInput = e => {
+  onChangeInput = (e) => {
     console.log(e.target.name, e.target.value);
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  itemTextChanged = e => {
+  itemTextChanged = (e) => {
     let { itemsValues } = this.state;
     itemsValues[e.target.id] = e.target.value;
   };
 
-  addItem = item => {
+  addItem = (item) => {
     let name = `item-${Object.keys(this.state.itemsInputs).length}`;
     let newItemInput = <Item name={name} onChange={this.itemTextChanged} />;
     let { itemsInputs } = this.state;
@@ -103,9 +119,11 @@ export default class NewOrderModalContainer extends React.Component {
     fetch("https://pigeon2.herokuapp.com/createOrder", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
         latitude: this.state.latitude,
         longitude: this.state.longitude,
         fullName: this.state.fullName,
@@ -114,15 +132,14 @@ export default class NewOrderModalContainer extends React.Component {
         phone: this.state.phone,
         itemsValues: this.state.itemsValues,
         estimatedTotalPrice: this.state.estimatedTotalPrice,
-        status:"ACTIVE"
-      })
-    }).then(response=>{
-      console.log(response)
-      if(response.status == 200){
+        status: "ACTIVE",
+      }),
+    }).then((response) => {
+      console.log(response);
+      if (response.status == 200) {
         this.props.onHide();
-      }
-      else{
-        alert("Unable to place order...")
+      } else {
+        alert("Unable to place order...");
       }
     });
     console.log(this.state);
@@ -142,7 +159,7 @@ export default class NewOrderModalContainer extends React.Component {
       >
         <Modal.Header
           closeButton
-          onHide={e => {
+          onHide={(e) => {
             this.props.onHide();
           }}
         >
@@ -156,14 +173,14 @@ export default class NewOrderModalContainer extends React.Component {
               <Form.Control
                 name="fullName"
                 placeholder="Full name *"
-                onChange={e => this.onChangeInput(e)}
+                onChange={(e) => this.onChangeInput(e)}
               />
             </Form.Group>
             <Form.Group controlId="info">
               <Form.Control
                 name="phone"
                 placeholder="Enter phone *"
-                onChange={e => this.onChangeInput(e)}
+                onChange={(e) => this.onChangeInput(e)}
               />
             </Form.Group>
             <Form.Group controlId="info">
@@ -175,13 +192,13 @@ export default class NewOrderModalContainer extends React.Component {
               <Form.Control
                 name="suite"
                 placeholder="Suite # (Optional)"
-                onChange={e => this.onChangeInput(e)}
+                onChange={(e) => this.onChangeInput(e)}
               />
             </Form.Group>
             <Form.Group controlId="info">
               <Form.Label>Items</Form.Label>
             </Form.Group>
-            {this.state.itemsInputs.map(i => i)}
+            {this.state.itemsInputs.map((i) => i)}
             <Button onClick={this.addItem}>Add Item</Button>
           </Form>
         </Modal.Body>
@@ -190,7 +207,7 @@ export default class NewOrderModalContainer extends React.Component {
           <Form.Control
             name="totalPrice"
             placeholder="Estimated total price for this order ($)*"
-            onChange={e => this.onChangeInput(e)}
+            onChange={(e) => this.onChangeInput(e)}
           />
         </Form.Group>
         <Modal.Footer>
@@ -202,3 +219,12 @@ export default class NewOrderModalContainer extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.authentication.isAuthenticated,
+  email: state.authentication.email,
+  password: state.authentication.password,
+});
+
+NewOrderModalContainer = connect(mapStateToProps)(NewOrderModalContainer);
+export default NewOrderModalContainer;
