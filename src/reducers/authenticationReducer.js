@@ -5,6 +5,7 @@ import {
   SIGNUP_REQUEST,
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
+  LOGOUT_REQUEST,
 } from "../actions/types";
 
 const INITIAL_STATE = {
@@ -38,6 +39,13 @@ const authenticationReducer = (state = INITIAL_STATE, action) => {
     case SIGNUP_FAILURE:
       return {
         ...state,
+        isAuthenticated: false,
+      };
+    case LOGOUT_REQUEST:
+      return{
+        ...state,
+        email:null,
+        password:null,
         isAuthenticated: false,
       };
     default:

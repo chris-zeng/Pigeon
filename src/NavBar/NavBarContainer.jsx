@@ -3,6 +3,7 @@ import NavBarComponent from "./NavBarComponent";
 import LoginModal from "../LoginModal";
 import { connect } from "react-redux";
 import {setGeoLocation} from './../actions/setGeoLocationAction'
+import {logout} from './../actions/logoutAction'
 class NavBarContainer extends React.Component {
   constructor(props) {
     super(props);
@@ -27,7 +28,7 @@ class NavBarContainer extends React.Component {
   };
 
   onClickLogout = () => {
-    localStorage.clear();
+    this.props.logout();
   };
 
   render() {
@@ -37,6 +38,7 @@ class NavBarContainer extends React.Component {
         onClickLogout={this.onClickLogout}
         isAuthenticated={this.state.isAuthenticated}
         handleLocationSearchInputSelect = {this.handleLocationSearchInputSelect}
+        props = {this.props.logout}
       />
     );
   }
@@ -48,6 +50,6 @@ const mapStateToProps = state => ({
   password: state.authentication.password,
 });
 
-NavBarContainer = connect(mapStateToProps, {setGeoLocation})(NavBarContainer);
+NavBarContainer = connect(mapStateToProps, {setGeoLocation, logout})(NavBarContainer);
 
 export default NavBarContainer;

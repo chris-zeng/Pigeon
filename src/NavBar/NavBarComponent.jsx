@@ -7,6 +7,7 @@ import LoginModal from "../LoginModal";
 import LocationSearchInput from "./../common/component/LocationSearchInput";
 
 import "bootstrap/dist/css/bootstrap.min.css";
+import { popup } from "leaflet";
 
 export default function NavBarComponent(props) {
   const [showLogin, setShowLogin] = useState(false);
@@ -19,7 +20,13 @@ export default function NavBarComponent(props) {
 
   const [showNewOrder, setShowNewOrder] = useState(false);
   const handleCloseNewOrder = () => setShowNewOrder(false);
-  const handleShowNewOrder = () => setShowNewOrder(true);
+  const handleShowNewOrder = () => {
+    if(props.isAuthenticated)
+      setShowNewOrder(true);
+    else{
+      alert("Please log in!");
+    }
+  }
 
   return (
     <Navbar bg="primary" variant="dark">
