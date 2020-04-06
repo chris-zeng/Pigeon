@@ -40,6 +40,11 @@ class HomeContainer extends React.Component {
   }
 
   _setGeoLocation = ()=> {
+    const initLat =43.653908
+    const initLong = -79.384293
+
+    this.props.setGeoLocation(initLat, initLong)
+    /*
     navigator.geolocation.getCurrentPosition(
         (position) => {
           console.log(position);
@@ -47,8 +52,8 @@ class HomeContainer extends React.Component {
         },
         (error) => this.setState({ error: error.message }),
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 1000 }
-      );
-      this.props.setGeoLocation();
+      );*/
+    //this.props.setGeoLocation();
   }
 
   componentDidMount() {
