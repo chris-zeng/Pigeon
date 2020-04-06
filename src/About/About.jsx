@@ -22,20 +22,20 @@ class About extends React.Component {
         </Modal.Header>
         <Modal.Body>
           <Row id="about-row">
-            Want a pack of beer but you too lazy to go out? Want someone to walk
-            your dog? Grandma needs groceries but she can't go out? Pigeon
+            Need medical supplies? Or want a pack of beer but you too lazy to go out? Maybe you need someone to walk
+            your dog? Or perhaps grandma needs groceries but you are too far away to help? Pigeon
             Support is a free to use platform that aims to help those at risk
             during COVID19 and those who are looking to make an extra income by
             delivering groceries or run other errands. We do not make a single
             penny from this app. We built this because we wanted to help. 
-            
+            </Row>
             <Row id="about-row">
-            Please share so we can reach as many people as possible! It may save lives.
-            Please note, Pigeon Support is not responsible for any losses or
+            Please share so we can reach as many people as possible!
+            Pigeon Support is not responsible for any losses or
             risks, we are simply a platform that connects people together during
             this crisis.
             </Row>
-          </Row>
+          
           <Row id="about-row">
             <h3>Persons at risk</h3>
             If you are an individual at risk, please register on our website,
