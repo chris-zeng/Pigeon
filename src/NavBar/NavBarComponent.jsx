@@ -34,7 +34,7 @@ export default function NavBarComponent(props) {
 
   return (
     <Navbar bg="primary" variant="dark" expand="lg">
-      <Navbar.Brand href="#home">Pigeon Supporting COVID19</Navbar.Brand>
+      <Navbar.Brand href="#home">Pigeon</Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">

@@ -1,5 +1,5 @@
 import React from "react";
-import {Row} from 'react-bootstrap'
+import { Row, Accordion, Card, Button } from "react-bootstrap";
 import { Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import { connect } from "react-redux";
@@ -21,6 +21,29 @@ class PigeonMarker extends React.Component {
       password: this.props.password,
     };
   }
+
+  changeOrderStatus = (orderStatus) => {
+    fetch("https://pigeon2.herokuapp.com/setStatus", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        _id: this.props.order._id,
+        status: orderStatus,
+      }),
+    }).then((response) => {
+      if (response.status === 200) {
+        alert("Successful changed order status");
+        return;
+      }
+      alert("Failed to change order status");
+      return;
+    });
+  };
+
   static getDerivedStateFromProps(props, state) {
     if (state.isAuthenticated !== props.isAuthenticated) {
       return {
@@ -29,39 +52,99 @@ class PigeonMarker extends React.Component {
         email: props.email,
       };
     }
+    return {};
   }
 
   render() {
-    if (this.state.isAuthenticated) {
+    if (this.props.order.status === "ACTIVE") {
+      if (this.state.isAuthenticated) {
+        return (
+          <Marker position={this.props.position} icon={myIcon}>
+            <Popup>
+              <Accordion defaultActiveKey="0">
+                <Card>
+                  <Card.Header>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                      Show contact info
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>
+                      <p>
+                        Name: <b> {this.props.order.fullName} </b>
+                      </p>
+                      <p>
+                        Phone: <b> {this.props.order.phone} </b>{" "}
+                      </p>
+                      <p>
+                        Address: <b> {this.props.order.address} </b>{" "}
+                      </p>
+                      {this.props.order.suite !== "" ? (
+                        <p>
+                          Suite#: <b> {this.props.order.suite} </b>{" "}
+                        </p>
+                      ) : (
+                        <></>
+                      )}
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+                <Card>
+                  <Card.Header>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="1">
+                      Show shopping list
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey="1">
+                    <Card.Body>
+                      {Object.values(this.props.order.itemsValues).map(
+                        (item, i) => {
+                          console.log(item, i);
+                          return <p>{item}</p>;
+                        }
+                      )}
+                      <p>
+                        Approximate cost: <b>$</b>{this.props.order.estimatedTotalPrice}
+                      </p>
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
+              {this.state.email === this.props.order.email ? (
+                <Row>
+                  <button
+                    style={{ margin: "2px" }}
+                    onClick={() => {
+                      this.changeOrderStatus("DELETE");
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    style={{ margin: "2px" }}
+                    onClick={() => {
+                      this.changeOrderStatus("COMPLETE");
+                    }}
+                  >
+                    Completed
+                  </button>
+                </Row>
+              ) : (
+                <></>
+              )}
+            </Popup>
+          </Marker>
+        );
+      }
       return (
         <Marker position={this.props.position} icon={myIcon}>
           <Popup>
-            <p> Name: {this.props.order.fullName} </p>
-            <p> Phone: {this.props.order.phone} </p>
-            <p> Address: {this.props.order.address} </p>
-            <p> Suite#: {this.props.order.suite} </p>
-            {this.props.order.itemsValues.length > 0 &&
-              this.props.order.itemsValues.map((item, i) => {
-                console.log(item)
-                return <p>{item}</p>;
-              })}
-            {
-              this.state.email===this.props.order.email?
-              <Row><button>Delete</button><button>Completed</button></Row>
-              :
-              <></>
-            }
+            <p> Login to see order information </p>
           </Popup>
         </Marker>
       );
     }
-    return (
-      <Marker position={this.props.position} icon={myIcon}>
-        <Popup>
-          <p> Login to see order information </p>
-        </Popup>
-      </Marker>
-    );
+    return <></>;
   }
 }
 

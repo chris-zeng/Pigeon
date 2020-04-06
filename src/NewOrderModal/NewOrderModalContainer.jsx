@@ -114,8 +114,6 @@ class NewOrderModalContainer extends React.Component {
     if (!this.handleValidation()) {
       return;
     }
-    //const email = localStorage.getItem("email");
-    const email = "chris.dz@gmail.com";
     fetch("https://pigeon2.herokuapp.com/createOrder", {
       method: "POST",
       headers: {

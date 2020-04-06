@@ -23,6 +23,7 @@ class MapContainer extends React.Component {
     ) {
       return { latitude: props.latitude, longitude: props.longitude };
     }
+    return {}
   }
 
   render() {

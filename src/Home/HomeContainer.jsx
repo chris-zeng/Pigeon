@@ -36,6 +36,7 @@ class HomeContainer extends React.Component {
     ) {
       return { latitude: props.latitude, longitude: props.longitude };
     }
+    return {};
   }
 
   _setGeoLocation = ()=> {
